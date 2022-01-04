@@ -41,61 +41,135 @@ void setup() {
   /*פעולות הפעלה ראשוניות*/
   setSpeedAll(1000);// set motor speed  \\ SOURCE
   delay(500);
-  goMiddle(30); // set all servos to middle position
-  delay(1000);
+  //goMiddle(30); // set all servos to middle position
+  //delay(1000);
   //Legs_B_FromTo(0, 30, 1);
-  delay(500);
+  //delay(500);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //goMiddle(30);
-   // works
+  //delay(2000);
+  //defaultPosition();
+  //delay(2000);
+  prepareForMovement();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  RotateRight();
+  
+  
+  delay(2000);
+  //checkServos();
+  //bodyUp(10);
+}
 
 
-  for(int i=1; i<19; i++)
+
+// ~~~~~~~~ Robot Functions ~~~~~~~~
+void prepareForMovement()
+{
+  goMiddle(30);
+  defaultPosition();
+  //delay(1000);
+
+    // move the second servo of every leg up - 1,3,5
+  moveServoFromTo(2, 0, -30, 0);
+  moveServoFromTo(8, 0, -30, 0);
+  moveServoFromTo(14, 0, -30, 0);
+
+  // move the first servo of every leg forward
+  moveServoFromTo(1, 0, -30, 0);
+  moveServoFromTo(7, 0, -30, 0);
+  moveServoFromTo(13, 0, -30, 0);
+
+  // get them back down
+  moveServoFromTo(2, -30, 0, 0);
+  moveServoFromTo(8, -30, 0, 0);
+  moveServoFromTo(14, -30, 0, 0);
+}
+
+
+void RotateRight()
+{ // going forward position1
+  int forwardServos[3] = {1,3,5};
+  int backwordServos[3] = {2,4,6};
+
+  // move the first servo back 60 degrees
+  moveServoFromTo(1, -30, 30, 0);
+  moveServoFromTo(7, -30, 30, 0);
+  moveServoFromTo(13, -30, 30, 0);
+  //delay(30);
+
+  // backword movement
+  // move the second servo of every leg up - 2,4,6
+  moveServoFromTo(5, 0, -30, 0);
+  moveServoFromTo(11, 0, -30, 0);
+  moveServoFromTo(17, 0, -30, 0);
+  //delay(30);
+  // move the first servo of every leg forward
+  moveServoFromTo(4, 30, -30, 0);
+  moveServoFromTo(10, 30, -30, 0);
+  moveServoFromTo(16, 30, -30, 0);
+  //delay(30);
+  // get them back down
+  moveServoFromTo(5, -30, 0, 0);
+  moveServoFromTo(11, -30, 0, 0);
+  moveServoFromTo(17, -30, 0, 0);
+  //delay(30);
+
+
+   // move the legs 60degrees back
+  moveServoFromTo(4, -30, 30, 0);
+  moveServoFromTo(10, -30, 30, 0);
+  moveServoFromTo(16, -30, 30, 0);
+  //delay(30);
+  
+  // backword movement
+  // move the second servo of every leg up - 1,3,5
+  moveServoFromTo(2, 0, -30, 0);
+  moveServoFromTo(8, 0, -30, 0);
+  moveServoFromTo(14, 0, -30, 0);
+  //delay(30);
+  // move the first servo of every leg forward
+  moveServoFromTo(1, 30, -30, 0);
+  moveServoFromTo(7, 30, -30, 0);
+  moveServoFromTo(13, 30, -30, 0);
+  //delay(30);
+  // get them back down
+  moveServoFromTo(2, -30, 0, 0);
+  moveServoFromTo(8, -30, 0, 0);
+  moveServoFromTo(14, -30, 0, 0);
+  //delay(30);
+}
+
+
+void bodyUp(int Delay)
+{ // moves the whole body up.
+  int inc = 5;
+  goMiddle(30);
+
+  for(int i = 3; i <= 19; i+1)
   {
-    moveServoFromTo(i, 0, -30, 100);
-    moveServoFromTo(i, -30, 0, 100);
+    moveServoFromTo(ServoArray[i][0], 0, -30, 30);
   }
-  delay(5000);
- 
+  
+  /*
+  for(int Serv = 1; Serv < 19; Serv++)
+  {
+    moveServoFromTo(Serv, 1-Serv, -Serv, 30);
+    delay(Delay);
+  }
+  */
 }
-
-
-
-
-// ~~~~~~~~ Leg functions ~~~~~~~~~~
-
-void move_leg_forward(unsigned char servoNum, int tempDelay, int sideTurn = 0) // if sideturn is given, the function uses it to move the leg differently
-{                                                      // if not than the value is 0  
- // moves a leg forward
-}
-
-void move_leg_backwords(unsigned char servoNum, int tempDelay, int sideTurn = 0) // if sideturn is given, the function uses it to move the leg differently
-{                                                        // if not than the value is 0
- // move a leg backwords
-}
-
-void move_leg_up(unsigned char servoNum, int tempDelay)
-{
- // moves the leg up - would be used to straighten up
-}
-
-void move_leg_down(unsigned char servoNum, int tempDelay)
-{
- // moves the leg down - would be used to crouch
-}
-
-void reposition_middle(unsigned char servoNum, int tempDelay)
-{
- // repositions the leg to the middle location
-}
-
-
-
-
-
 
 
 // ~~~~~~~~ Servo motor methods ~~~~~~~~~~
@@ -162,3 +236,39 @@ void Legs_B_FromTo(int From, int To, int myDelay) {  // From CENTER
       }
     }
 }
+
+void checkServos()
+{
+  for(int i=1; i<=19; i++)
+  {
+    moveServoFromTo(i, 0, -30, 100);
+    moveServoFromTo(i, -30, 0, 100);
+    //moveServoFromTo(i, 30, 0, 100);
+  
+  }
+  delay(2000);
+}
+
+void defaultPosition()
+{ // goto default position
+  int moreHight = 10;
+  for(int servo = 3; servo <= 19; servo+=3)
+  { // move all servos from current position 10 moreHight more
+    moveServoFromTo(servo, ServoArray[servo][1],ServoArray[servo][1] + moreHight, 30); 
+  }
+  
+}
+/*
+void goMid()
+{
+  // if the servo is not in the FROM position, it just goes to it!!!!!!!!
+  for(int j = 0; j<=60; j=j+5)
+  {
+    for(int i=1; i<19; i++)
+    {
+     moveServoFromTo(i, j, j+5, 100);
+        // move 20
+    }
+  }
+}
+*/
