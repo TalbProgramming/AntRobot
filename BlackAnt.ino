@@ -50,7 +50,9 @@ void setup() {
 
 void loop() 
 
-{
+{ 
+
+  
   // put your main code here, to run repeatedly:
   //goMiddle(30);
   //delay(2000);
@@ -58,27 +60,84 @@ void loop()
   //delay(2000);
 
   goMiddle(30);
-  delay(2000);
   defaultPosition();
   delay(2000);
+  prepareForForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  delay(2000);
+
+  goMiddle(30);
+  Crouch();
+  delay(2000);
+  prepareForForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  delay(2000);
+
   
+  goMiddle(30);
+  Stretch();
+  delay(2000);
+  prepareForForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  delay(2000);
+
+  
+  /*
   prepareForRotation(1);
   Rotate(1);
   Rotate(1);
   Rotate(1);
-  Rotate(1);
-
-  goMiddle(30);
   delay(2000);
-  defaultPosition();
+  
+  prepareForForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
   delay(2000);
   
   prepareForRotation(0);
   Rotate(0);
   Rotate(0);
   Rotate(0);
-  Rotate(0);
-
+  delay(2000);
+  
+  prepareForForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  moveForward();
+  delay(2000);
+*/
   /*
   delay(2000);
   Crouch();
@@ -96,6 +155,94 @@ void loop()
 
 
 // ~~~~~~~~ Robot Functions ~~~~~~~~
+
+void prepareForForward()
+{
+  int stepSize = -20;
+  int middleOne = -20; // we need the middle one to move more then the others
+  //goMiddle(30);
+  //defaultPosition();
+  //delay(1000);
+
+    // move the second servo of every leg up - 1,4,5
+  moveServoFromTo(2, 0, -30, 0);
+  moveServoFromTo(11, 0, -30, 0); // leg4
+  moveServoFromTo(14, 0, -30, 0);
+
+  // move the first servo of every leg forward
+  moveServoFromTo(1, 0, stepSize, 0);
+  moveServoFromTo(10, 0, -stepSize, 0); // leg4
+  moveServoFromTo(13, 0, -stepSize, 0);
+
+  // get them back down
+  moveServoFromTo(2, -30, 0, 0);
+  moveServoFromTo(11, -30, 0, 0); // leg4
+  moveServoFromTo(14, -30, 0, 0);
+}
+
+
+void moveForward()
+{
+
+  // every time, the 1st or 6th leg move the opppsite direciton of the other two legs
+   // on rotation, the two sets of 3 legs go to the same direction
+   // for going forward, we need the two sets of 3 legs to go to the opposite side.
+  int stepsize = -20;
+  int middleOne = -20;
+  
+  // move the first servo back 60 degrees
+  moveServoFromTo(1, stepsize, -stepsize, 0);
+  moveServoFromTo(10, -stepsize, stepsize, 0); // leg4
+  moveServoFromTo(13, -stepsize, stepsize, 0);
+  //delay(30);
+
+  // backword movement
+  // move the second servo of every leg up - 2,3,6
+  moveServoFromTo(5, 0, -30, 0);
+  moveServoFromTo(8, 0, -30, 0); // leg3
+  moveServoFromTo(17, 0, -30, 0);
+  //delay(30);
+  // move the first servo of every leg forward
+  moveServoFromTo(4, -stepsize, stepsize, 0);
+  moveServoFromTo(7, -stepsize, stepsize, 0); // leg3
+  moveServoFromTo(16, stepsize, -stepsize, 0);
+  //delay(30);
+  // get them back down
+  moveServoFromTo(5, -30, 0, 0);
+  moveServoFromTo(8, -30, 0, 0); // leg3
+  moveServoFromTo(17, -30, 0, 0);
+  //delay(30);
+
+
+   // move the legs 60degrees back
+  moveServoFromTo(4, stepsize, -stepsize, 0);
+  moveServoFromTo(7, stepsize, -stepsize, 0); // leg3
+  moveServoFromTo(16, -stepsize, stepsize, 0);
+  //delay(30);
+  
+  // backword movement
+  // move the second servo of every leg up - 1,4,5
+  moveServoFromTo(2, 0, -30, 0);
+  moveServoFromTo(11, 0, -30, 0);// leg4
+  moveServoFromTo(14, 0, -30, 0);
+  //delay(30);
+  // move the first servo of every leg forward
+  moveServoFromTo(1, -stepsize, stepsize, 0);
+  moveServoFromTo(10, stepsize, -stepsize, 0);// leg4
+  moveServoFromTo(13, stepsize, -stepsize, 0);
+  //delay(30);
+  // get them back down
+  moveServoFromTo(2, -30, 0, 0);
+  moveServoFromTo(11, -30, 0, 0);// leg4
+  moveServoFromTo(14, -30, 0, 0);
+  //delay(30);
+  
+}
+
+
+
+
+
 
 void prepareForRotation(int side) // 0 = left, 1 = right
 { 
@@ -250,7 +397,8 @@ void Stretch()
   }
 }
 
-void goMiddle(int myDelay) {
+void goMiddle(int myDelay)
+{
   for (int i = 1 ; i <= 18 ; i++) {
     settarget(ServoArray[i][0], ServoArray[i][1]);
   delay(myDelay);
@@ -294,7 +442,8 @@ void settarget(unsigned char servo, unsigned int target)
   maestro.setTarget(servo, target);
 }
 
-void setSpeedAll(int set) {//Engine speed setting function
+void setSpeedAll(int set)
+{//Engine speed setting function
   for (int i = 1 ; i <= 18 ; i++)  {
     //maestro.setSpeed(i, set);
     maestro.setSpeed(ServoArray[i][0], set);
@@ -305,7 +454,8 @@ void setSpeedAll(int set) {//Engine speed setting function
 
 // Move specipic servoNum - move servo angle
 // servoNum - list index, not port!!
-void moveServoFromTo(int servoNum, int From, int To, int myDelay) {
+void moveServoFromTo(int servoNum, int From, int To, int myDelay)
+{
   
   int increment = 5;
   
@@ -321,37 +471,3 @@ void moveServoFromTo(int servoNum, int From, int To, int myDelay) {
     delay(myDelay);
     }
 }
-
-
- // #################### unclear whats happening here
-void Legs_B_FromTo(int From, int To, int myDelay) {  // From CENTER
-  if (From < To)
-    for (int ii = From ; ii <= To ; ii ++) {
-      for (int i = 2 ; i <= 18 ; i += 3) { // B Legs Only
-        settarget(ServoArray[i][0], ii + ServoArray[i][1]);
-    delay(myDelay);
-      }
-    }
-  if (From > To)
-    for (int ii = From ; ii >= To ; ii --) {
-      for (int i = 2 ; i <= 18 ; i += 3) {  // B Legs Only
-        settarget(ServoArray[i][0], ii + ServoArray[i][1]);
-    delay(myDelay);
-      }
-    }
-}
-
-/*
-void goMid()
-{
-  // if the servo is not in the FROM position, it just goes to it!!!!!!!!
-  for(int j = 0; j<=60; j=j+5)
-  {
-    for(int i=1; i<19; i++)
-    {
-     moveServoFromTo(i, j, j+5, 100);
-        // move 20
-    }
-  }
-}
-*/
