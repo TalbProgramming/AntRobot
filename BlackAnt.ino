@@ -58,39 +58,24 @@ void loop()
   //delay(2000);
   //defaultPosition();
   //delay(2000);
-
+/*
   goMiddle(30);
+  delay(2000);
   defaultPosition();
   delay(2000);
-  prepareForForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  delay(2000);
 
-  goMiddle(30);
   Crouch();
   delay(2000);
-  prepareForForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  delay(2000);
-
-  
-  goMiddle(30);
+*/
+  //goMiddle(30);
+  //delay(2000);
+  //defaultPosition();
+  //delay(2000);
   Stretch();
-  delay(2000);
+  delay(3000);
+  Crouch();
+  delay(3000);
+
   prepareForForward();
   moveForward();
   moveForward();
@@ -103,29 +88,27 @@ void loop()
   delay(2000);
 
   
-  /*
   prepareForRotation(1);
   Rotate(1);
   Rotate(1);
   Rotate(1);
   delay(2000);
-  
-  prepareForForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  delay(2000);
-  
+
   prepareForRotation(0);
   Rotate(0);
   Rotate(0);
   Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
   delay(2000);
+
+  Crouch();
+  delay(2000);
+  
   
   prepareForForward();
   moveForward();
@@ -137,19 +120,8 @@ void loop()
   moveForward();
   moveForward();
   delay(2000);
-*/
-  /*
-  delay(2000);
-  Crouch();
-  delay(2000);
-  //Crouch();
-  Stretch();
-  delay(2000);
-  */
-
-  
-  //checkServos();
-  //bodyUp(10);
+  delay(10000);
+ 
 }
 
 
@@ -160,9 +132,9 @@ void prepareForForward()
 {
   int stepSize = -20;
   int middleOne = -20; // we need the middle one to move more then the others
-  //goMiddle(30);
-  //defaultPosition();
-  //delay(1000);
+  goMiddle(30);
+  defaultPosition();
+  delay(50);
 
     // move the second servo of every leg up - 1,4,5
   moveServoFromTo(2, 0, -30, 0);
@@ -270,7 +242,7 @@ void prepareForRotation(int side) // 0 = left, 1 = right
   
   goMiddle(30);
   defaultPosition();
-  //delay(1000);
+  delay(50);
 
     // move the second servo of every leg up - 1,4,5
   moveServoFromTo(2, 0, -30, 0);
@@ -364,36 +336,37 @@ void Rotate(int side) // 0 - left, 1 - right
 
 void Crouch()
 { // moves the whole body down.
- // goMiddle(30);
- // defaultPosition ();
+  goMiddle(30);
+  defaultPosition();
   // third servo of every leg goes down
   for(int i = 3; i <= 19; i = i+3)
   {
-    moveServoFromTo(i, 0, 50, 0);
+    moveServoFromTo(i, 30, 50, 10);
   }
 
   //second servo of every leg goes up
    for(int ii = 2; ii <= 19; ii = ii+3)
   {
-    moveServoFromTo(ii, 0, -30, 0);
+    moveServoFromTo(ii, 0, -30, 10);
   }
 }
 
 
 void Stretch()
 { // moves the body up
- // goMiddle(30);
-//  defaultPosition ();
-
+  goMiddle(30);
+  defaultPosition();
+ 
   // third servo of every leg goes up
   for(int i = 3; i <= 19; i = i+3)
   {
-    moveServoFromTo(i, 0, -10, 0);
+    moveServoFromTo(i, 30, 20, 10);
   }
+  
   //second servo of every leg goes down
-   for(int ii = 2; ii <= 19; ii = ii+3)
+   for(int ii = 2; ii <= 18; ii = ii+3)
   {
-    moveServoFromTo(ii, 0, 50, 0);
+    moveServoFromTo(ii, 0, 50, 10);
   }
 }
 
