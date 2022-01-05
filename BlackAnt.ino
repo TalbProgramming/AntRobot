@@ -56,29 +56,38 @@ void loop()
   //delay(2000);
   //defaultPosition();
   //delay(2000);
-/*
-prepareForMovement();
-RotateRight();
-RotateRight();
-RotateRight();
-	delay(2000);
-prepareForMovementV2();
-RotateRightV2();
-RotateRightV2();
-RotateRightV2();
-RotateRightV2();
-  delay(2000);
-  */
 
   goMiddle(30);
   delay(2000);
   defaultPosition();
+  delay(2000);
+  
+  prepareForRotation(1);
+  Rotate(1);
+  Rotate(1);
+  Rotate(1);
+  Rotate(1);
+
+  goMiddle(30);
+  delay(2000);
+  defaultPosition();
+  delay(2000);
+  
+  prepareForRotation(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+
+  /*
   delay(2000);
   Crouch();
   delay(2000);
   //Crouch();
   Stretch();
   delay(2000);
+  */
+
   
   //checkServos();
   //bodyUp(10);
@@ -87,117 +96,80 @@ RotateRightV2();
 
 
 // ~~~~~~~~ Robot Functions ~~~~~~~~
-void prepareForMovement()
-{
-  goMiddle(30);
-  defaultPosition();
-  //delay(1000);
 
-    // move the second servo of every leg up - 1,3,5
-  moveServoFromTo(2, 0, -30, 0);
-  moveServoFromTo(8, 0, -30, 0);
-  moveServoFromTo(14, 0, -30, 0);
+void prepareForRotation(int side) // 0 = left, 1 = right
+{ 
 
-  // move the first servo of every leg forward
-  moveServoFromTo(1, 0, -30, 0);
-  moveServoFromTo(7, 0, -30, 0);
-  moveServoFromTo(13, 0, -30, 0);
+  // variables
+  int stepSize = 30;
 
-  // get them back down
-  moveServoFromTo(2, -30, 0, 0);
-  moveServoFromTo(8, -30, 0, 0);
-  moveServoFromTo(14, -30, 0, 0);
-}
+  if(side == 1)
+  { // if you wanna turn to the right the stepsize equals to -stepsize
+    stepSize = 0 - stepSize; 
+  }
 
+  if(side != 0 && side != 1)
+  {
+    // wrong input
+    while(true)
+    { // shows an error
+       moveServoFromTo(2, 0, -30, 30);
+       moveServoFromTo(3, 0, -30, 30);
+       moveServoFromTo(2, -30, 0, 30);
+       moveServoFromTo(3, -30, 0,30);
+    }
 
-void RotateRight()
-{ // going forward position1
-  int forwardServos[3] = {1,3,5};
-  int backwordServos[3] = {2,4,6};
-
-  // move the first servo back 60 degrees
-  moveServoFromTo(1, -30, 30, 0);
-  moveServoFromTo(7, -30, 30, 0);
-  moveServoFromTo(13, -30, 30, 0);
-  //delay(30);
-
-  // backword movement
-  // move the second servo of every leg up - 2,4,6
-  moveServoFromTo(5, 0, -30, 0);
-  moveServoFromTo(11, 0, -30, 0);
-  moveServoFromTo(17, 0, -30, 0);
-  //delay(30);
-  // move the first servo of every leg forward
-  moveServoFromTo(4, 30, -30, 0);
-  moveServoFromTo(10, 30, -30, 0);
-  moveServoFromTo(16, 30, -30, 0);
-  //delay(30);
-  // get them back down
-  moveServoFromTo(5, -30, 0, 0);
-  moveServoFromTo(11, -30, 0, 0);
-  moveServoFromTo(17, -30, 0, 0);
-  //delay(30);
-
-
-   // move the legs 60degrees back
-  moveServoFromTo(4, -30, 30, 0);
-  moveServoFromTo(10, -30, 30, 0);
-  moveServoFromTo(16, -30, 30, 0);
-  //delay(30);
+    // if side is 0, we dont hav to change anything about the stepsize variable...
   
-  // backword movement
-  // move the second servo of every leg up - 1,3,5
-  moveServoFromTo(2, 0, -30, 0);
-  moveServoFromTo(8, 0, -30, 0);
-  moveServoFromTo(14, 0, -30, 0);
-  //delay(30);
-  // move the first servo of every leg forward
-  moveServoFromTo(1, 30, -30, 0);
-  moveServoFromTo(7, 30, -30, 0);
-  moveServoFromTo(13, 30, -30, 0);
-  //delay(30);
-  // get them back down
-  moveServoFromTo(2, -30, 0, 0);
-  moveServoFromTo(8, -30, 0, 0);
-  moveServoFromTo(14, -30, 0, 0);
-  //delay(30);
-}
-
-
-
-
-void prepareForMovementV2()
-{
   goMiddle(30);
   defaultPosition();
   //delay(1000);
 
-    // move the second servo of every leg up - 1,3,5
+    // move the second servo of every leg up - 1,4,5
   moveServoFromTo(2, 0, -30, 0);
   moveServoFromTo(11, 0, -30, 0); // leg4
   moveServoFromTo(14, 0, -30, 0);
 
   // move the first servo of every leg forward
-  moveServoFromTo(1, 0, -30, 0);
-  moveServoFromTo(10, 0, -30, 0); // leg4
-  moveServoFromTo(13, 0, -30, 0);
+  moveServoFromTo(1, 0, stepSize, 0);
+  moveServoFromTo(10, 0, stepSize, 0); // leg4
+  moveServoFromTo(13, 0, stepSize, 0);
 
   // get them back down
   moveServoFromTo(2, -30, 0, 0);
   moveServoFromTo(11, -30, 0, 0); // leg4
   moveServoFromTo(14, -30, 0, 0);
+  }
 }
 
+void Rotate(int side) // 0 - left, 1 - right
+{
+// variables
+  int stepsize = 30;
 
-void RotateRightV2()
-{ // going forward position1
-  int forwardServos[3] = {1,3,5};
-  int backwordServos[3] = {2,4,6};
+  if(side == 1)
+  { // if you wanna turn to the right the stepsize equals to -stepsize
+    stepsize = 0 - stepsize; 
+  }
 
+  if(side != 0 && side != 1)
+  {
+    // wrong input
+    while(true)
+    { // shows an error
+       moveServoFromTo(2, 0, -30, 30);
+       moveServoFromTo(3, 0, -30, 30);
+       moveServoFromTo(2, -30, 0, 30);
+       moveServoFromTo(3, -30, 0, 30);
+    }
+
+    // if side is 0, we dont hav to change anything about the stepsize variable...
+  }
+ 
   // move the first servo back 60 degrees
-  moveServoFromTo(1, -30, 30, 0);
-  moveServoFromTo(10, -30, 30, 0); // leg4
-  moveServoFromTo(13, -30, 30, 0);
+  moveServoFromTo(1, stepsize, -stepsize, 0);
+  moveServoFromTo(10, stepsize, -stepsize, 0); // leg4
+  moveServoFromTo(13, stepsize, -stepsize, 0);
   //delay(30);
 
   // backword movement
@@ -207,9 +179,9 @@ void RotateRightV2()
   moveServoFromTo(17, 0, -30, 0);
   //delay(30);
   // move the first servo of every leg forward
-  moveServoFromTo(4, 30, -30, 0);
-  moveServoFromTo(7, 30, -30, 0); // leg3
-  moveServoFromTo(16, 30, -30, 0);
+  moveServoFromTo(4, -stepsize, stepsize, 0);
+  moveServoFromTo(7, -stepsize, stepsize, 0); // leg3
+  moveServoFromTo(16, -stepsize, stepsize, 0);
   //delay(30);
   // get them back down
   moveServoFromTo(5, -30, 0, 0);
@@ -219,21 +191,21 @@ void RotateRightV2()
 
 
    // move the legs 60degrees back
-  moveServoFromTo(4, -30, 30, 0);
-  moveServoFromTo(7, -30, 30, 0); // leg3
-  moveServoFromTo(16, -30, 30, 0);
+  moveServoFromTo(4, stepsize,-stepsize, 0);
+  moveServoFromTo(7, stepsize, -stepsize, 0); // leg3
+  moveServoFromTo(16, stepsize, -stepsize, 0);
   //delay(30);
   
   // backword movement
-  // move the second servo of every leg up - 1,3,5
+  // move the second servo of every leg up - 1,4,5
   moveServoFromTo(2, 0, -30, 0);
   moveServoFromTo(11, 0, -30, 0);// leg4
   moveServoFromTo(14, 0, -30, 0);
   //delay(30);
   // move the first servo of every leg forward
-  moveServoFromTo(1, 30, -30, 0);
-  moveServoFromTo(10, 30, -30, 0);// leg4
-  moveServoFromTo(13, 30, -30, 0);
+  moveServoFromTo(1, -stepsize, stepsize, 0);
+  moveServoFromTo(10, -stepsize, stepsize, 0);// leg4
+  moveServoFromTo(13, -stepsize, stepsize, 0);
   //delay(30);
   // get them back down
   moveServoFromTo(2, -30, 0, 0);
@@ -306,7 +278,7 @@ void defaultPosition()
   for(int servo = 3; servo <= 19; servo+=3)
   {
     //moveServoFromTo(servo, ServoArray[servo][1],ServoArray[servo][1] + moreHight, 30);
-    moveServoFromTo(servo, 0, 30, 30); 
+    moveServoFromTo(servo, 0, 30, 0); 
   }
   
 }
