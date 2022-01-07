@@ -54,73 +54,10 @@ void loop()
 
   
   // put your main code here, to run repeatedly:
-  //goMiddle(30);
-  //delay(2000);
-  //defaultPosition();
-  //delay(2000);
-/*
   goMiddle(30);
   delay(2000);
   defaultPosition();
-  delay(2000);
-
-  Crouch();
-  delay(2000);
-*/
-  //goMiddle(30);
-  //delay(2000);
-  //defaultPosition();
-  //delay(2000);
-  Stretch();
-  delay(3000);
-  Crouch();
-  delay(3000);
-
-  prepareForForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  delay(2000);
-
-  
-  prepareForRotation(1);
-  Rotate(1);
-  Rotate(1);
-  Rotate(1);
-  delay(2000);
-
-  prepareForRotation(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  Rotate(0);
-  delay(2000);
-
-  Crouch();
-  delay(2000);
-  
-  
-  prepareForForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  moveForward();
-  delay(2000);
-  delay(10000);
+  delay(5000);
  
 }
 
@@ -395,13 +332,22 @@ void checkServos()
 
 void defaultPosition()
 { // goto default position
- 
+
+   // move servo3 of every leg
   for(int servo = 3; servo <= 19; servo+=3)
   {
     //moveServoFromTo(servo, ServoArray[servo][1],ServoArray[servo][1] + moreHight, 30);
     moveServoFromTo(servo, 0, 30, 0); 
   }
+
+  // move legs vertically
+  moveServoFromTo(1, 0, -30, 0); // leg1
   
+  moveServoFromTo(7, 0, 30, 0); // leg3
+  
+  moveServoFromTo(10, 0, -30, 0); // leg4
+
+  moveServoFromTo(16, 0, 30, 0); // leg6
 }
 // ~~~~~~~~ Servo motor methods ~~~~~~~~~~
 
