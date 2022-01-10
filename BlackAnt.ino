@@ -25,7 +25,8 @@ int ServoArray[19][3] = {   {0, 0 , 0},
 
 
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
   
   maestroSerial.begin(9600);
@@ -49,60 +50,149 @@ void setup() {
 
 
 void loop() 
-
 { 
-
-  
   // put your main code here, to run repeatedly:
+ /*
   goMiddle(30);
   delay(2000);
-  defaultPosition();
+  defaultStandingPosition();
   delay(2000);
   movingPosition();
   delay(2000);
   Crouch(); 
   delay(2000);
   Stretch();
-  delay(10000);
+  delay(2000);
+*/
 
+  
+  prepareForRotation(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+
+  prepareForRotation(1);
+  Rotate(1);
+  Rotate(1);
+  Rotate(1);
+  Rotate(1);
+  /*
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  Rotate(0);
+  */
+  delay(20000);
 }
 
-void moveAllSecondServos(int From, int To)
-{ // dont use, should be used only once, not accurate
-  moveServoFromTo(2, From, To, 30);
-  moveServoFromTo(5, From, To, 30);
-  moveServoFromTo(8, From, To, 30);
-  moveServoFromTo(11, From, To, 30);
-  moveServoFromTo(14, From, To, 30);
-  moveServoFromTo(17, From, To, 30); 
-}
-void moveAllThirdServos(int From, int To)
-{ // dont use, should be used only once, not accurate
-  moveServoFromTo(3, From, To, 30);
-  moveServoFromTo(6, From, To, 30);
-  moveServoFromTo(9, From, To*0.42, 30);
-  moveServoFromTo(12, From, To*0.42, 30);
-  moveServoFromTo(15, From, To*0.5, 30);
-  moveServoFromTo(18, From, To*0.5, 30);
+// ~~~~~~~~~~~~~~~~ Standing Methods ~~~~~~~~~~~~~~~~~~~~~
+
+void defaultStandingPosition()
+{ // goto default position
+
+  for(int i = 3; i<=19; i=i+3)
+  {
+    moveServoFromTo(i, 0, 30, 30);
+  }
+  // move legs vertically
+  moveServoFromTo(1, 0, -20, 0); // leg1
+  
+  moveServoFromTo(7, 0, 20, 0); // leg3
+  
+  moveServoFromTo(10, 0, -20, 0); // leg4
+
+  moveServoFromTo(16, 0, 20, 0); // leg6
   
 }
 
-void movingPosition()
+void defaultPosition()
 {
-
-  int From = 0;
-  // only 90 because the fist and secon servos cant move more then that
-  moveAllThirdServos(30, 90);
-  // move all 2nd servos up
-  moveAllSecondServos(0, -30);
+	// default position before walking
+	goMiddle(30);
+	delay(200);
+	
+	for(int servo = 3; servo <= 19; servo+=3)
+	{
+		moveServoFromTo(servo, 0, 30, 0); 
+	}
 }
-// ~~~~~~~~ Robot Functions ~~~~~~~~
 
-void prepareForForward()
+
+void Crouch()
+{ // moves the whole body down.
+  goMiddle(30);
+  defaultStandingPosition();
+  // third servo of every leg goes down
+  for(int i = 3; i <= 19; i = i+3)
+  {
+    moveServoFromTo(i, 30, 50, 10);
+  }
+
+  //second servo of every leg goes up
+   for(int ii = 2; ii <= 19; ii = ii+3)
+  {
+    moveServoFromTo(ii, 0, -30, 10);
+  }
+}
+
+
+void Stretch()
+{ // moves the body up
+  goMiddle(30);
+  defaultStandingPosition();
+ 
+  // third servo of every leg goes up
+  for(int i = 3; i <= 19; i = i+3)
+  {
+    moveServoFromTo(i, 30, 20, 10);
+  }
+  
+  //second servo of every leg goes down
+   for(int ii = 2; ii <= 18; ii = ii+3)
+  {
+    moveServoFromTo(ii, 0, 50, 10);
+  }
+}
+
+void goMiddle(int myDelay)
+{
+  for (int i = 1 ; i <= 18 ; i++) {
+    settarget(ServoArray[i][0], ServoArray[i][1]);
+  delay(myDelay);
+  }
+}
+
+
+// ~~~~~~~~ Moving Functions ~~~~~~~~
+
+void prepareForMovement(int where) // 0 - backward, 1 - forward
 {
   int stepSize = -20;
-  int middleOne = -20; // we need the middle one to move more then the others
-  goMiddle(30);
+  
+  
+  // NEEDS TO BE CHECKED !!!!!!!!!!!!!!!
+  
+  if(where == 0)
+  {
+	  // backward movement	  
+	  stepSize = -stepSize;
+  }
+  
+  if(where != 0 && where != 1)
+  {
+	  // wrong input
+	  while(true)
+    { // shows an error
+       moveServoFromTo(2, 0, -30, 30);
+       moveServoFromTo(3, 0, -30, 30);
+       moveServoFromTo(2, -30, 0, 30);
+       moveServoFromTo(3, -30, 0,30);
+    }
+  }
+  
   defaultPosition();
   delay(50);
 
@@ -123,14 +213,31 @@ void prepareForForward()
 }
 
 
-void moveForward()
+void moveForward(int where)
 {
 
   // every time, the 1st or 6th leg move the opppsite direciton of the other two legs
    // on rotation, the two sets of 3 legs go to the same direction
    // for going forward, we need the two sets of 3 legs to go to the opposite side.
   int stepsize = -20;
-  int middleOne = -20;
+  
+  if(where == 0)
+  {
+	  // backward movement	  
+	  stepSize = -stepSize;
+  }
+  
+  if(where != 0 && where != 1)
+  {
+	  // wrong input
+	  while(true)
+    { // shows an error
+       moveServoFromTo(2, 0, -30, 30);
+       moveServoFromTo(3, 0, -30, 30);
+       moveServoFromTo(2, -30, 0, 30);
+       moveServoFromTo(3, -30, 0,30);
+    }
+  }
   
   // move the first servo back 60 degrees
   moveServoFromTo(1, stepsize, -stepsize, 0);
@@ -182,10 +289,6 @@ void moveForward()
 }
 
 
-
-
-
-
 void prepareForRotation(int side) // 0 = left, 1 = right
 { 
 
@@ -207,12 +310,11 @@ void prepareForRotation(int side) // 0 = left, 1 = right
        moveServoFromTo(2, -30, 0, 30);
        moveServoFromTo(3, -30, 0,30);
     }
-
+  }
     // if side is 0, we dont hav to change anything about the stepsize variable...
   
-  goMiddle(30);
   defaultPosition();
-  delay(50);
+  delay(200);
 
     // move the second servo of every leg up - 1,4,5
   moveServoFromTo(2, 0, -30, 0);
@@ -228,7 +330,7 @@ void prepareForRotation(int side) // 0 = left, 1 = right
   moveServoFromTo(2, -30, 0, 0);
   moveServoFromTo(11, -30, 0, 0); // leg4
   moveServoFromTo(14, -30, 0, 0);
-  }
+  
 }
 
 void Rotate(int side) // 0 - left, 1 - right
@@ -304,51 +406,29 @@ void Rotate(int side) // 0 - left, 1 - right
 }
 
 
-void Crouch()
-{ // moves the whole body down.
-  goMiddle(30);
-  defaultPosition();
-  // third servo of every leg goes down
-  for(int i = 3; i <= 19; i = i+3)
-  {
-    moveServoFromTo(i, 30, 50, 10);
-  }
+// ~~~~~~~~~~~~~ Helping Methods ~~~~~~~~~~~~~~~
 
-  //second servo of every leg goes up
-   for(int ii = 2; ii <= 19; ii = ii+3)
-  {
-    moveServoFromTo(ii, 0, -30, 10);
-  }
+void moveAllSecondServos(int From, int To)
+{ // dont use, should be used only once, not accurate
+  moveServoFromTo(2, From, To, 30);
+  moveServoFromTo(5, From, To, 30);
+  moveServoFromTo(8, From, To, 30);
+  moveServoFromTo(11, From, To, 30);
+  moveServoFromTo(14, From, To, 30);
+  moveServoFromTo(17, From, To, 30); 
 }
 
 
-void Stretch()
-{ // moves the body up
-  goMiddle(30);
-  defaultPosition();
- 
-  // third servo of every leg goes up
-  for(int i = 3; i <= 19; i = i+3)
-  {
-    moveServoFromTo(i, 30, 20, 10);
-  }
+void moveAllThirdServos(int From, int To)
+{ // dont use, should be used only once, not accurate
+  moveServoFromTo(3, From, To, 30);
+  moveServoFromTo(6, From, To, 30);
+  moveServoFromTo(9, From, To*0.42, 30);
+  moveServoFromTo(12, From, To*0.42, 30);
+  moveServoFromTo(15, From, To*0.5, 30);
+  moveServoFromTo(18, From, To*0.5, 30);
   
-  //second servo of every leg goes down
-   for(int ii = 2; ii <= 18; ii = ii+3)
-  {
-    moveServoFromTo(ii, 0, 50, 10);
-  }
 }
-
-void goMiddle(int myDelay)
-{
-  for (int i = 1 ; i <= 18 ; i++) {
-    settarget(ServoArray[i][0], ServoArray[i][1]);
-  delay(myDelay);
-  }
-}
-
-
 
 
 void checkServos()
@@ -357,29 +437,11 @@ void checkServos()
   {
     moveServoFromTo(i, 0, -30, 100);
     moveServoFromTo(i, -30, 0, 100);
-    //moveServoFromTo(i, 30, 0, 100);
-  
   }
   delay(2000);
 }
 
-void defaultPosition()
-{ // goto default position
 
-
-  for(int i = 3; i<=19; i=i+3)
-  {
-    moveServoFromTo(i, 0, 30, 30);
-  }
-  // move legs vertically
-  moveServoFromTo(1, 0, -20, 0); // leg1
-  
-  moveServoFromTo(7, 0, 20, 0); // leg3
-  
-  moveServoFromTo(10, 0, -20, 0); // leg4
-
-  moveServoFromTo(16, 0, 20, 0); // leg6
-}
 // ~~~~~~~~ Servo motor methods ~~~~~~~~~~
 
 void settarget(unsigned char servo, unsigned int target)
