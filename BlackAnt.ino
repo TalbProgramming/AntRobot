@@ -176,7 +176,7 @@ void prepareForMovement(int where, int Delay) //where = 0 - backward, 1 - forwar
        moveServoFromTo(3, -30, 0,30);
     }
   }
-  
+  goMiddle(30);
   defaultPosition();
   delay(50);
 
@@ -291,6 +291,7 @@ void prepareForRotation(int side, int Delay) // 0 = left, 1 = right
   }
     // if side is 0, we dont hav to change anything about the stepsize variable...
   
+  goMiddle(30);
   defaultPosition();
   delay(200);
 
