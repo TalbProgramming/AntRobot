@@ -42,10 +42,6 @@ void setup()
   /*פעולות הפעלה ראשוניות*/
   setSpeedAll(1000);// set motor speed  \\ SOURCE
   delay(500);
-  //goMiddle(30); // set all servos to middle position
-  //delay(1000);
-  //Legs_B_FromTo(0, 30, 1);
-  //delay(500);
 }
 
 
@@ -53,18 +49,37 @@ void loop()
 { 
   // put your main code here, to run repeatedly:
 
-  prepareForRotation(0, 0);
-  Rotate(0, 0);
-  Rotate(0, 0);
-  Rotate(0, 0);
-  Rotate(0, 0);
+  goMiddle(30);
 
-  prepareForRotation(1, 0);
-  Rotate(1, 0);
-  Rotate(1, 0);
-  Rotate(1, 0);
-  Rotate(1, 0);
+  prepareForMovement(1, 30);
+  moveForward(1, 30);
+  moveForward(1, 30);
+  moveForward(1, 30);
+  moveForward(1, 30);
+  moveForward(1, 30);
+  moveForward(1, 30);
   
+  prepareForRotation(0, 30);
+  Rotate(0, 30);
+  Rotate(0, 30);
+  Rotate(0, 30);
+  Rotate(0, 30);
+
+  prepareForRotation(1, 30);
+  Rotate(1, 30);
+  Rotate(1, 30);
+  Rotate(1, 30);
+  Rotate(1, 30);
+
+  prepareForMovement(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30);
+  moveForward(0, 30); 
   delay(20000);
 }
 
@@ -72,7 +87,9 @@ void loop()
 
 void defaultStandingPosition()
 { // goto default position
-
+  goMiddle(30);
+  delay(100);
+  
   for(int i = 3; i<=19; i=i+3)
   {
     moveServoFromTo(i, 0, 30, 30);
@@ -97,7 +114,8 @@ void defaultPosition()
 	
 	for(int servo = 3; servo <= 19; servo+=3)
 	{
-		moveServoFromTo(servo, 0, 30, 0); 
+		moveServoFromTo(servo, 0, 50, 0);
+    //moveServoFromTo(servo, 0, 30, 0); 
 	}
 }
 
@@ -208,7 +226,7 @@ void moveForward(int where, int Delay)
   if(where == 0)
   {
 	  // backward movement	  
-	  stepSize = -stepSize;
+	  stepsize = -stepsize;
   }
   
   if(where != 0 && where != 1)
